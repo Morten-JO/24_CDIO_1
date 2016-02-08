@@ -1,6 +1,6 @@
 package main;
 
-public class Operator {
+public class OperatorDTO {
 	private static int IDCounter = 0;
 	private int ID;
 	private String name;
@@ -8,7 +8,7 @@ public class Operator {
 	private String ini; //what is this for?
 	private String password;
 
-	public Operator(String name, String cpr){
+	public OperatorDTO(String name, String cpr){
 		this.name = name;
 		this.cpr = cpr;
 		password = "a";

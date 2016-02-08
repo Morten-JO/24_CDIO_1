@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Main {
 	private static Scanner scanner = new Scanner(System.in);
-	private static Operator currentUser = null;
+	private static OperatorDTO currentUser = null;
 	private static OperatorDAO oprDAO = new OperatorDAO();
 	private static MeasureHandler measureHandler = new MeasureHandler();
 	private static boolean exit = false;
@@ -47,10 +47,10 @@ public class Main {
 	}
 	
 	private static void handleLogin(String cpr, String pass) {
-		List<Operator> oprList;
+		List<OperatorDTO> oprList;
 		try {
 			oprList = oprDAO.getOperatorList();
-			for(Operator o : oprList){
+			for(OperatorDTO o : oprList){
 				if(o.getCpr().equals(cpr) && o.getPassword().equals(pass))
 					currentUser = o;
 			}
@@ -83,7 +83,7 @@ public class Main {
 			if(optionInt==1)
 				handleNewUser();
 			else if (optionInt==2) {
-				List<Operator> oprList = oprDAO.getOperatorList();
+				List<OperatorDTO> oprList = oprDAO.getOperatorList();
 				for(int i = 0;i<oprList.size();i++){
 					System.out.println(i+". CPR: "+oprList.get(i).getCpr());
 				}
@@ -134,7 +134,7 @@ public class Main {
 	}
 	
 	private static void handleNewUser(){
-		Operator newOpr;
+		OperatorDTO newOpr;
 		
 		String name;
 		String cpr;
@@ -149,7 +149,7 @@ public class Main {
 		//int will prolly be a prob due to possible zero-precedence => octal interpretation
 		
 		//initialize new opr obj
-		newOpr = new Operator(name, cpr);
+		newOpr = new OperatorDTO(name, cpr);
 		
 		try {
 			oprDAO.createOperator(newOpr);

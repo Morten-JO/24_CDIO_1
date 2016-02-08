@@ -5,30 +5,49 @@ import java.math.*;
 
 public class PasswordHandler {
 	public static String generatePassword(){
-		String pass = new String();
-		
 		//char container categories
-		char[] lowcaseLetters = new char[]{'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','x','y','z'};
-		char[] uppercaseLetters = new char[]{'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z'};
-		char[] specialSigns = {'.', '-', '_', '+', '!', '?', '='};
-		char[] numbers = {'0','1','2','3','4','5','6','7','8','9'};
-		char[][] charCats = {lowcaseLetters, uppercaseLetters,specialSigns, numbers};
-		
+		char[] lowcaseLetters = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o','p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'z' };
+		char[] uppercaseLetters = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N','O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'Z' };
+		char[] specialSigns = { '.', '-', '_', '+', '!', '?', '=' };
+		char[] numbers = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+		char[][] charCats = { lowcaseLetters, uppercaseLetters, specialSigns, numbers };
+
 		Random rnd = new Random();
-		
-		//get random password length val between 6 and 10
-		int passLength = rnd.nextInt(4)+6;
-		
-		//generate pass
+
+		// get random password length val between 6 and 10
+		int passLength = rnd.nextInt(4) + 6;
+
 		int charCat = 0;
-		for(int i = 0;i<passLength;i++){
-			charCat = rnd.nextInt(4);
-			pass += charCats[charCat][rnd.nextInt(charCats[charCat].length)];
+		char[] passChars = new char[passLength];
+
+		// temp use of charCat to hold cat to be skipped (to accomplish 3/4 cats
+		// being used)
+		charCat = rnd.nextInt(4);
+
+		// random positioning of at least 3 chars from different cats
+		for (int i = 0; i < 4; i++) {
+			if (!(i == charCat))
+				passChars[rnd.nextInt(passLength)] = charCats[charCat][rnd.nextInt(charCats[charCat].length)];
 		}
-		
-		return pass;
+
+		// fill out rest of password with random chars
+		for (int i = 0; i < passLength; i++) {
+			if (!(passChars[i] == '\u0000')) {
+				charCat = rnd.nextInt(4);
+				passChars[i] = charCats[charCat][rnd.nextInt(charCats[charCat].length)];
+			}
+		}
+
+		// return the password converted to regular String obj
+		return new String(passChars);
 	}
-	
+
+	public static boolean changePassword(String newPass) {
+
+		return true;
+	}
+			
+			
 	public static boolean checkValidPassword(String str, String username) {
 		boolean smallLetters = false;
 		boolean bigLetters = false;
