@@ -98,7 +98,7 @@ public class PasswordHandler {
 					}
 				}
 				if(categoriesFullFilled >= 3){
-					System.out.println("User is fine");
+					System.out.println("Password has all requirements, and are considered okay.");
 					return true;
 				}
 				else{

@@ -1,5 +1,6 @@
 package run;
 
+import java.io.Console;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,6 +38,7 @@ public class Run {
 	}
 	
 	private void promptLogin(){
+		currentUser = null;
 		String cpr, password;
 		System.out.println("*** LOGIN *** \nEnter your cpr: ");
 		cpr = scanner.next();
@@ -80,7 +82,8 @@ public class Run {
 			System.out.println("2. Show list of operators");
 			System.out.println("3. Take measurement");
 			System.out.println("4. Change user");
-			System.out.println("5. Exit");
+			System.out.println("5. Delete user");
+			System.out.println("6. Exit");
 		}else{
 			System.out.println("1. Take measurement");
 			System.out.println("2. Change password");
@@ -99,15 +102,17 @@ public class Run {
 			else if (optionInt==2) {
 				List<OperatorDTO> oprList = oprDAO.getOperatorList();
 				for(int i = 0;i<oprList.size();i++){
-					System.out.println(i+". CPR: "+oprList.get(i).getCpr());
+					System.out.println(i+". CPR: "+oprList.get(i).getCpr()+", Password: "+oprList.get(i).getPassword());
 				}
 			}else if (optionInt==3) {
 				MeasureHandler.runMeasurement(scanner);
 			}else if (optionInt==4) {
 				promptLogin();
 			}else if(optionInt==5){
+				promptDeleteUser();
+			}else if(optionInt==6){
 				exit = true;
-			} else{
+			}else{
 				return false;
 			}
 		}else{
@@ -178,7 +183,25 @@ public class Run {
 		} catch (DALException e) {
 			e.printStackTrace();
 		}
-		
+	}
+	
+	private void promptDeleteUser() throws DALException{
+		List<OperatorDTO> oprList = oprDAO.getOperatorList();
+		for(int i = 0;i<oprList.size();i++){
+			System.out.println(i+". CPR: "+oprList.get(i).getCpr());
+		}
+		System.out.print("Type CPR of user you want to delete: ");
+		String cpr = scanner.next();
+		if(!cpr.equals(currentUser.getCpr())){
+			for(int i = 0; i < oprList.size(); i++){
+				if(cpr.equals(oprList.get(i).getCpr())){
+					oprList.remove(i);
+					System.out.println("User deleted!");
+					return;
+				}
+			}
+		}
+		System.out.println("Cant delete that user!");
 	}
 	
 }
