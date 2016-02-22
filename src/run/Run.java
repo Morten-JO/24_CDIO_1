@@ -107,7 +107,7 @@ public class Run {
 			else if (optionInt==2) {
 				List<OperatorDTO> oprList = oprDAO.getOperatorList();
 				for(int i = 0;i<oprList.size();i++){
-					System.out.println(i+". CPR: "+oprList.get(i).getCpr()+", Password: "+oprList.get(i).getPassword());
+					System.out.println(i+". CPR: "+oprList.get(i).getCpr()+", Password: "+oprList.get(i).getPassword()+ " ID: " +oprList.get(i).getID());
 				}
 			}else if (optionInt==3) {
 				MeasureHandler.runMeasurement(scanner);
@@ -165,8 +165,8 @@ public class Run {
 		}
 	}
 	
-	private void handleNewUser(){
-		OperatorDTO newOpr;
+	private void handleNewUser() throws DALException{
+		OperatorDTO newOpr = null;
 		
 		String name;
 		String cpr;
@@ -182,17 +182,36 @@ public class Run {
 		System.out.println("Enter CPR number: ");
 		cpr = scanner.next();
 		
-		//parse cprString to int removing all non-numeric and checking length (other rules can be applied)
-		//int will prolly be a prob due to possible zero-precedence => octal interpretation
+		for (int j = 0; j < oprDAO.getOperatorList().size(); j++) {
+			
+		if (oprDAO.getOperatorList().get(j).getCpr().equals(cpr)){
+			
+			System.out.println("You cant create this user.");
+			newOpr = null;
+			
+			break;
+		}
+		else if (j == oprDAO.getOperatorList().size()-1)
+			newOpr = new OperatorDTO(name, cpr);	
+			
 		
-		//initialize new opr obj
-		newOpr = new OperatorDTO(name, cpr);
+		}
 		
 		try {
 			oprDAO.createOperator(newOpr);
 		} catch (DALException e) {
 			e.printStackTrace();
 		}
+		
+		
+		
+		//parse cprString to int removing all non-numeric and checking length (other rules can be applied)
+		//int will prolly be a prob due to possible zero-precedence => octal interpretation
+		
+		//initialize new opr obj
+		
+		
+	
 	}
 	
 	private void promptDeleteUser() throws DALException{

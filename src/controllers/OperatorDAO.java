@@ -35,8 +35,8 @@ public class OperatorDAO implements IOperatorDAO{
 
 	@Override
 	public void createOperator(OperatorDTO opr) throws DALException {
-		operatorList.add(opr);
-		
+		if (opr != null)
+		operatorList.add(opr);		
 	}
 
 	@Override
