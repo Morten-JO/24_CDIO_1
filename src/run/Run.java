@@ -1,6 +1,7 @@
 package run;
 
 import java.io.Console;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -95,7 +96,11 @@ public class Run {
 	//returns false if user entered a number not on list and will return
 	private boolean handleOptionPick() throws DALException{
 		//HACK TO CLEAR CONSOLE: for(int clear = 0; clear < 1000; clear++){ System.out.println("\b") ;} 
-		int optionInt = scanner.nextInt();
+		int optionInt = 0;
+		try{
+			optionInt = scanner.nextInt();
+		} catch(InputMismatchException e){
+		}
 		if(currentUser.getCpr().equals("sysadmin")){
 			if(optionInt==1)
 				handleNewUser();
