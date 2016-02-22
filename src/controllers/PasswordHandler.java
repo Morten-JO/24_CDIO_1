@@ -29,10 +29,11 @@ public class PasswordHandler {
 
 		// random positioning of at least 3 chars from different cats
 		for (int i = 0; i < 4; i++) {
-			if (!(i == charCat))
-				passChars[rnd.nextInt(passLength)] = charCats[charCat][rnd.nextInt(charCats[charCat].length)];
+			int currentElement = rnd.nextInt(passLength);
+			if ((!(i == charCat)) && passChars[currentElement] == '\u0000'){
+				passChars[currentElement] = charCats[charCat][rnd.nextInt(charCats[charCat].length)];
 		}
-
+		}
 		// fill out rest of password with random chars
 		for (int i = 0; i < passLength; i++) {
 			if ((passChars[i] == '\u0000')) {
