@@ -30,9 +30,30 @@ public class PasswordHandler {
 		// random positioning of at least 3 chars from different cats
 		for (int i = 0; i < 4; i++) {
 			int currentElement = rnd.nextInt(passLength);
-			if ((!(i == charCat)) && passChars[currentElement] == '\u0000'){
-				passChars[currentElement] = charCats[charCat][rnd.nextInt(charCats[charCat].length)];
-		}
+			if (!(i == charCat)){
+				
+				if(passChars[currentElement] == '\u0000')
+					passChars[currentElement] = charCats[charCat][rnd.nextInt(charCats[charCat].length)];
+				else{
+					boolean didFindNullASCI = false;
+					//search right (using this method to deal with theoretical endless loops and enforce unpredictability)
+					for(int j = currentElement+1; j<passChars.length;j++){
+						if(passChars[j] == '\u0000'){
+							didFindNullASCI = true;
+							passChars[currentElement] = charCats[charCat][rnd.nextInt(charCats[charCat].length)];
+						}
+					}
+					//search left if still not found u0000
+					if(!didFindNullASCI){
+						for (int j = currentElement-1; j < 0; j--) {
+							if(passChars[j] == '\u0000'){
+								didFindNullASCI = true;
+								passChars[currentElement] = charCats[charCat][rnd.nextInt(charCats[charCat].length)];
+							}
+						}
+					}
+				}
+			}
 		}
 		// fill out rest of password with random chars
 		for (int i = 0; i < passLength; i++) {

@@ -166,7 +166,7 @@ public class Run {
 	}
 	
 	private void handleNewUser() throws DALException{
-		OperatorDTO newOpr = null;
+		OperatorDTO newOpr;
 		
 		String name;
 		String cpr;
@@ -183,30 +183,19 @@ public class Run {
 		cpr = scanner.next();
 		
 		for (int j = 0; j < oprDAO.getOperatorList().size(); j++) {
-			
-		if (oprDAO.getOperatorList().get(j).getCpr().equals(cpr)){
-			
-			System.out.println("You cant create this user.");
-			newOpr = null;
-			
-			break;
-		}
-		else if (j == oprDAO.getOperatorList().size()-1)
-			newOpr = new OperatorDTO(name, cpr);	
-			
-		
+			if (oprDAO.getOperatorList().get(j).getCpr().equals(cpr)){	
+				System.err.println("This CPR already exists in the system! User not created.");
+				return;
+			}		
 		}
 		
 		try {
+			newOpr = new OperatorDTO(name, cpr);
 			oprDAO.createOperator(newOpr);
 		} catch (DALException e) {
 			e.printStackTrace();
 		}
 		
-		
-		
-		//parse cprString to int removing all non-numeric and checking length (other rules can be applied)
-		//int will prolly be a prob due to possible zero-precedence => octal interpretation
 		
 		//initialize new opr obj
 		
