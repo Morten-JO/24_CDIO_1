@@ -173,6 +173,11 @@ public class Run {
 		
 		System.out.println("Enter name: ");
 		name = scanner.next();
+		while(!(name.length() > 1 && name.length() < 21)){
+			System.out.println("Name must be minimum 2 letters, and max 20 letters.");
+			System.out.println("Enter name: ");
+			name = scanner.next();
+		}
 		
 		System.out.println("Enter CPR number: ");
 		cpr = scanner.next();
