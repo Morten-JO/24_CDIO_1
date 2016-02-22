@@ -17,13 +17,11 @@ public class Run {
 	private Scanner scanner;
 	private OperatorDTO currentUser;
 	private OperatorDAO oprDAO;
-	private MeasureHandler measureHandler;
 	private boolean exit;
 	
 	public Run() throws DALException{
 		scanner = new Scanner(System.in);
 		oprDAO = new OperatorDAO();
-		measureHandler = new MeasureHandler();
 	}
 	
 	public void start() throws DALException{
@@ -100,6 +98,8 @@ public class Run {
 		try{
 			optionInt = scanner.nextInt();
 		} catch(InputMismatchException e){
+			System.out.println("Type a number corresponding to the menu numbers!");
+			scanner.next();
 		}
 		if(currentUser.getCpr().equals("sysadmin")){
 			if(optionInt==1)
