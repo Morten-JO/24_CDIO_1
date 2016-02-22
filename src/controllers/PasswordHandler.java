@@ -1,6 +1,9 @@
-package main;
+package controllers;
 
 import java.util.Random;
+
+import data.OperatorDTO;
+
 import java.math.*;
 
 public class PasswordHandler {
@@ -32,7 +35,7 @@ public class PasswordHandler {
 
 		// fill out rest of password with random chars
 		for (int i = 0; i < passLength; i++) {
-			if (!(passChars[i] == '\u0000')) {
+			if ((passChars[i] == '\u0000')) {
 				charCat = rnd.nextInt(4);
 				passChars[i] = charCats[charCat][rnd.nextInt(charCats[charCat].length)];
 			}
@@ -42,9 +45,16 @@ public class PasswordHandler {
 		return new String(passChars);
 	}
 
-	public static boolean changePassword(String newPass) {
-
-		return true;
+	public static boolean changePassword(OperatorDTO operator, String currentPass, String newPass, String confirmPass) {
+		if(currentPass.equals(operator.getPassword())){
+			if(checkValidPassword(newPass, operator.getName())){
+				if(newPass.equals(confirmPass)){
+					operator.setPassword(newPass);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 			
 			

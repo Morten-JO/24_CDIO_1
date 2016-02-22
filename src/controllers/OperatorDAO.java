@@ -1,7 +1,10 @@
-package main;
+package controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import data.OperatorDTO;
+import exception.DALException;
 
 public class OperatorDAO implements IOperatorDAO{
 	DataAccessMySQL dataAccess = new DataAccessMySQL();

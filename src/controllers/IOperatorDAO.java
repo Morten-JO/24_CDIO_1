@@ -1,6 +1,9 @@
-package main;
+package controllers;
 
 import java.util.List;
+
+import data.OperatorDTO;
+import exception.DALException;
 
 public interface IOperatorDAO {
 	OperatorDTO getOperator(int ID) throws DALException;

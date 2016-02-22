@@ -1,4 +1,4 @@
-package main;
+package data;
 
 public class OperatorDTO {
 	private static int IDCounter = 0;
