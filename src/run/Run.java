@@ -1,12 +1,12 @@
 package run;
 
-import java.io.Console;
+
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import controllers.OperatorDAO;
 import controllers.PasswordHandler;
+import data.OperatorDAO;
 import data.OperatorDTO;
 import exception.DALException;
 import measure.MeasureHandler;
@@ -15,7 +15,7 @@ import measure.MeasureHandler;
 public class Run {
 
 	private Scanner scanner;
-	private OperatorDTO currentUser;
+	
 	private OperatorDAO oprDAO;
 	private boolean exit;
 	
@@ -37,7 +37,7 @@ public class Run {
 	}
 	
 	private void promptLogin(){
-		currentUser = null;
+		oprDAO.setCurrentUser(null);
 		String cpr, password;
 		System.out.println("*** LOGIN *** \nEnter your cpr: ");
 		cpr = scanner.next();
@@ -46,7 +46,7 @@ public class Run {
 		
 		handleLogin(cpr, password);
 		
-		while(currentUser == null){
+		while(oprDAO.getCurrentUser()== null){
 			System.out.println("Wrong login, please try again!");
 			System.out.println("Enter your cpr: ");
 			cpr = scanner.next();
@@ -65,7 +65,7 @@ public class Run {
 			oprList = oprDAO.getOperatorList();
 			for(OperatorDTO o : oprList){
 				if(o.getCpr().equals(cpr) && o.getPassword().equals(pass))
-					currentUser = o;
+					oprDAO.setCurrentUser(o);
 			}
 		} catch (DALException e) {
 			e.printStackTrace();
@@ -76,7 +76,7 @@ public class Run {
 	private void presentOptions(){
 		System.out.println("Use number menu to navigate:");
 		
-		if(currentUser.getCpr().equals("sysadmin")){
+		if(oprDAO.getCurrentUser().getCpr().equals("10")){
 			System.out.println("1. Create new user");
 			System.out.println("2. Show list of operators");
 			System.out.println("3. Take measurement");
@@ -101,7 +101,7 @@ public class Run {
 			System.out.println("Type a number corresponding to the menu numbers!");
 			scanner.next();
 		}
-		if(currentUser.getCpr().equals("sysadmin")){
+		if(oprDAO.getCurrentUser().getCpr().equals("10")){
 			if(optionInt==1)
 				handleNewUser();
 			else if (optionInt==2) {
@@ -144,13 +144,13 @@ public class Run {
 		System.out.println("Type your current password: ");
 		String currPass = scanner.next();
 		String newPass;
-		if(currentUser.getPassword().equals(currPass)){
+		if(oprDAO.getCurrentUser().getPassword().equals(currPass)){
 			System.out.println("Type new password: ");
 			newPass = scanner.next();
 			System.out.println("Type new password again: ");
 			String passChecker = scanner.next();
 			if(passChecker.equals(newPass)){
-				if(PasswordHandler.changePassword(currentUser, currPass, newPass, passChecker)){
+				if(PasswordHandler.changePassword(oprDAO.getCurrentUser(), currPass, newPass, passChecker)){
 					System.out.println("Password has been changed!");
 				}
 				else{
@@ -171,16 +171,16 @@ public class Run {
 		String name;
 		String cpr;
 		
-		System.out.println("Enter name: ");
-		name = scanner.next();
+		System.out.println("Enter first name: ");
+		name = scanner.next().trim();
 		while(!(name.length() > 1 && name.length() < 21)){
 			System.out.println("Name must be minimum 2 letters, and max 20 letters.");
-			System.out.println("Enter name: ");
-			name = scanner.next();
+			System.out.println("Enter first name: ");
+			name = scanner.next().trim();
 		}
 		
 		System.out.println("Enter CPR number: ");
-		cpr = scanner.next();
+		cpr = scanner.next().trim();
 		
 		for (int j = 0; j < oprDAO.getOperatorList().size(); j++) {
 			if (oprDAO.getOperatorList().get(j).getCpr().equals(cpr)){	
@@ -210,11 +210,12 @@ public class Run {
 		}
 		System.out.print("Type CPR of user you want to delete: ");
 		String cpr = scanner.next();
-		if(!cpr.equals(currentUser.getCpr())){
+		if(!cpr.equals(oprDAO.getCurrentUser().getCpr())){
 			for(int i = 0; i < oprList.size(); i++){
 				if(cpr.equals(oprList.get(i).getCpr())){
 					oprList.remove(i);
-					System.out.println("User deleted!");
+					System.out.println("User deleted!");	
+					
 					return;
 				}
 			}

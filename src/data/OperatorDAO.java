@@ -1,24 +1,32 @@
-	package controllers;
+	package data;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import data.OperatorDTO;
 import exception.DALException;
 
 public class OperatorDAO implements IOperatorDAO{
-	DataAccessMySQL dataAccess = new DataAccessMySQL();
-	List<OperatorDTO> operatorList = new ArrayList<OperatorDTO>();
+	private List<OperatorDTO> operatorList = new ArrayList<OperatorDTO>();
+	 private OperatorDTO currentUser;
 	
+	public OperatorDTO getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(OperatorDTO currentUser) {
+		this.currentUser = currentUser;
+	}
+
 	public OperatorDAO() {
+		OperatorDTO sysadmin = new OperatorDTO("sysadmin", "10");
+		sysadmin.setPassword("Abc02324");
 		OperatorDTO opr1 = new OperatorDTO("Test1", "1231231231");
 		OperatorDTO opr2 = new OperatorDTO("Test2", "1231231232");
 		OperatorDTO opr3 = new OperatorDTO("Test3", "1231231233");
-		OperatorDTO sysadmin = new OperatorDTO("sysadmin", "sysadmin");
+
+		operatorList.add(sysadmin);
 		operatorList.add(opr1);
 		operatorList.add(opr2);
 		operatorList.add(opr3);
-		operatorList.add(sysadmin);
 
 	}
 

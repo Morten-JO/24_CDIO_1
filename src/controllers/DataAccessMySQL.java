@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.crypto.Data;
 
 public class DataAccessMySQL{
 
@@ -21,7 +20,7 @@ public class DataAccessMySQL{
 
         String url = "jdbc:mysql://localhost:3306/Users?autoReconnect=true&useSSL=false";
         String user = "root";
-        String password = "suck it";
+        String password = "";
 
         try {
   

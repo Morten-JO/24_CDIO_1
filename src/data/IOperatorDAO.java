@@ -1,8 +1,7 @@
-package controllers;
+package data;
 
 import java.util.List;
 
-import data.OperatorDTO;
 import exception.DALException;
 
 public interface IOperatorDAO {

@@ -1,7 +1,7 @@
 package data;
 
 public class OperatorDTO {
-	private static int IDCounter = 0;
+	private static int IDCounter = 10;
 	private int ID;
 	private String name;
 	private String cpr;

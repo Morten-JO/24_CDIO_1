@@ -4,7 +4,6 @@ import java.util.Random;
 
 import data.OperatorDTO;
 
-import java.math.*;
 
 public class PasswordHandler {
 	public static String generatePassword(){
