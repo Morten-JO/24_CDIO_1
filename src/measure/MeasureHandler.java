@@ -11,7 +11,7 @@ public class MeasureHandler {
 		return rndWeight;
 	}
 	
-	public float getBrutto(float brutto, float tara){
+	public float getNetto(float brutto, float tara){
 		return brutto-tara;
 	}
 	
@@ -32,7 +32,7 @@ public class MeasureHandler {
 					System.out.print("Type brutto in kilograms: ");
 					float brutto = scanner.nextFloat();
 					System.out.println();
-					System.out.println("Netto weight is: "+measurer.getBrutto(brutto, tara)+" kg.");
+					System.out.println("Netto weight is: "+measurer.getNetto(brutto, tara)+" kg.");
 				}
 				else{
 					System.out.println("Exiting measurement");
