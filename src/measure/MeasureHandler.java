@@ -24,22 +24,26 @@ public class MeasureHandler {
 			System.out.println("1. Take measurement");
 			System.out.println("2. Exit measurement");
 			try{
-				int choice = scanner.nextInt();
+				int choice = Integer.parseInt(scanner.next());
 				if(choice == 1){
-					System.out.print("Type tara in kilograms: ");
+					System.out.print("Type brutto weight in kg: ");
+					float brutto = scanner.nextFloat();
+					System.out.print("Type tara weight in kg: ");
 					float tara = scanner.nextFloat();
 					System.out.println();
-					System.out.print("Type brutto in kilograms: ");
-					float brutto = scanner.nextFloat();
-					System.out.println();
-					System.out.println("Netto weight is: "+measurer.getNetto(brutto, tara)+" kg.");
+					if (brutto>tara){
+						System.out.println("Netto weight is: \n\t"+measurer.getNetto(brutto, tara)+" kg.\n");
+					}else {
+						System.err.println("Input error! Try again.");
+					}
 				}
 				else{
 					System.out.println("Exiting measurement");
 					isRunning = false;
 				}
-			} catch(Exception e){
-				System.out.println("Error!");
+			}catch(Exception e){
+				System.err.println("Input error! Try again.\n");
+				scanner.next();
 			}
 		}
 	}
